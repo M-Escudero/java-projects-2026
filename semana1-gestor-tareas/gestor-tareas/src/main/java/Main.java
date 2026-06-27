@@ -22,17 +22,29 @@ public class Main {
         }; */
 
         // --- Sustitución de Array por Arraylist ---
-        List<String> tareas = new ArrayList<>(List.of(
+       /* List<String> tareas = new ArrayList<>(List.of(
                 "Sacar a pasear a Kira",
                 "Ir al gimnasio",
                 "Estudiar Java",
                 "Ver el Mundial",
                 "Respetar la dieta"
+        )); */
+
+        // --- Creación de Lista de Tareas con objetos de tipo Tarea (En lugar de con String)
+        List<Tarea> tareas = new ArrayList<>(List.of(
+                new Tarea("Sacar a pasear a Kira"),
+                new Tarea("Ir al gimnasio"),
+                new Tarea("Estudiar Java"),
+                new Tarea("Ver el Mundial"),
+                new Tarea("Respetar la dieta")
         ));
 
+        //Marcar la tarea en posición 2 como completada
+        tareas.get(2).marcarCompletada();
+
         // --- Añadir nuevas tareas ---
-        tareas.add("Leer 30 minutos");
-        tareas.add("Revisar el correo");
+        tareas.add(new Tarea("Leer 30 minutos"));
+        tareas.add(new Tarea("Revisar el correo"));
 
         // --- Eliminar la tarea en posición 0
         tareas.remove(0);
@@ -46,14 +58,21 @@ public class Main {
         // --- Recorrer el array e imprimir las tareas numeradas ---
         System.out.println("\n --- Lista de tareas ---");
         for (int i = 0; i < tareas.size(); i++){
-            System.out.println((i+1) + ". " + tareas.get(i));
+            System.out.println((i+1) + ". " + tareas.get(i).toString());
+            /*System.out.println((i + 1) + ". " + tareas.get(i)); --> |Java llama a toString() automáticamente cuando intentas concatenar|
+                                                                      |un objeto con un String usando +,                                 |
+                                                                      |o cuando lo pasas directamente a System.out.println().            |
+                                                                      |Java sabe que necesita convertir el objeto a texto,               |
+                                                                      |y busca el método toString() para hacerlo.)                       |
+                                                                   */
         }
 
         // --- Contar tareas que contienen una palabra ---
         int contador = 0;
         int i = 0;
         while (i < tareas.size()){
-            if (tareas.get(i).contains("Java")){
+            if (tareas.get(i).toString().contains("Java")){
+                //tareas.get(i).titulo.contains("Java") (más limpio acceder directamente al atributo título.)
                 contador++;
             }
             i++;
