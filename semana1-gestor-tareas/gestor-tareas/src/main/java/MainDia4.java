@@ -1,6 +1,5 @@
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 public class MainDia4 {
 
@@ -9,27 +8,27 @@ public class MainDia4 {
         RepositorioTareas repo = new RepositorioTareas();
 
         //Añadir tareas válidas.
-        repo.agregar(new Tarea("Sacar a pasear a Kira"));
-        repo.agregar(new Tarea("Ir al gimnasio"));
-        repo.agregar(new Tarea("Estudiar Java"));
-        repo.agregar(new Tarea("Ver el mundial"));
-        repo.agregar(new Tarea("Respetar la dieta"));
+        repo.agregar("Sacar a pasear a Kira");
+        repo.agregar("Ir al gimnasio");
+        repo.agregar("Estudiar Java");
+        repo.agregar("Ver el mundial");
+        repo.agregar("Respetar la dieta");
 
         //Marcar una tarea como completada.
-        repo.listar().get(2).marcarCompletada();
+        repo.completar(2);
 
         //Intentar añadir una tarea inválida.
         try {
-            repo.agregar(new Tarea(""));
+            repo.agregar("");
         } catch (TareaInvalidaException e){
             System.out.println("Error controlado: " + e.getMessage());
         }
 
         //Listar todas las tareas.
         System.out.println("\n --- Lista de tareas ---");
-        List<Tarea> tareas = repo.listar();
-        for (int i = 0; i < tareas.size(); i++){
-            System.out.println((i + 1) + ". " + tareas.get(i));
+        Map<Integer, Tarea> tareas = repo.listar();
+        for (Map.Entry<Integer, Tarea> entrada : tareas.entrySet()) {
+            System.out.println(entrada.getKey() + ". " + entrada.getValue());
         }
 
         System.out.println("\n Total de tareas: " + tareas.size());

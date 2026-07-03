@@ -5,62 +5,9 @@ import java.util.Scanner;
 
 public class GestorTareas {
 
-    private Map<Integer, Tarea> tareas = new LinkedHashMap<>();
-    private int siguienteId = 1;
+    private Repositorio repositorio = new RepositorioTareas();
     private Scanner scanner = new Scanner(System.in);
 
-
-    //Método para Añadir tareas.
-    public void agregar(String titulo) {
-
-        if (titulo == null || titulo.isEmpty()) {
-            throw new TareaInvalidaException("El título no puede estar vacío");
-        }
-
-        tareas.put(siguienteId, new Tarea(titulo));
-        siguienteId++;
-        System.out.println("Tarea añadida con ID: " + (siguienteId - 1));
-    }
-
-    //Método para Hacer Lista de Tareas.
-    public void listar(){
-
-        if (tareas.isEmpty()){
-            System.out.println("No hay tareas pendientes.");
-            return;
-        }
-        System.out.println("\n --- Lista de Tareas ---");
-        for (Map.Entry<Integer, Tarea> entrada : tareas.entrySet()){
-            System.out.println(entrada.getKey() + ". " + entrada.getValue());
-        }
-    }
-
-    //Método para Tarea completada.
-    public void completar(int id){
-
-        Tarea tarea = tareas.get(id); //La regla general es: crea una variable local cuando vayas a usar el mismo valor más de una vez,
-                                      // o cuando necesites guardarlo para comprobarlo antes de usarlo.
-
-        if (tarea == null){
-            System.out.println("No existe una tarea con ID: " + id);
-            return;
-        }
-        tarea.marcarCompletada();
-        System.out.println("Tarea completada: " + tarea.titulo);
-    }
-
-    //Método para eliminar Tareas.
-    public void eliminar(int id){
-
-        Tarea tarea = tareas.get(id);
-
-        if (tarea == null){
-            System.out.println("No existe una tarea con ID: " + id);
-            return;
-        }
-        tareas.remove(id);
-        System.out.println("Tarea eliminada: " + tarea.titulo);
-    }
 
     //Método que Inicia el Menú.
     public void iniciarMenu(){
@@ -84,26 +31,45 @@ public class GestorTareas {
                     System.out.println("Introduce el título de la tarea: ");
                     String titulo = scanner.nextLine();
                     try {
-                        agregar(titulo);
+                        repositorio.agregar(titulo);
+                        System.out.println("Tarea añadida correctamente.");
                     } catch (TareaInvalidaException e){
                         System.out.println("Error: " + e.getMessage());
                     }
                     break;
 
                 case 2:
-                    listar();
+                    Map<Integer, Tarea> tareas = repositorio.listar();
+                    if (tareas.isEmpty()){
+                        System.out.println("No hay tareas pendientes.");
+                    }else {
+                        System.out.println("\n --- Lista de tareas ---");
+                        for (Map.Entry<Integer, Tarea> entrada : tareas.entrySet()){
+                            System.out.println(entrada.getKey() + ". " + entrada.getValue());
+                        }
+                    }
                     break;
 
                 case 3:
                     System.out.println("Introduce el ID de la tarea a completar: ");
                     int idCompletar = scanner.nextInt();
-                    completar(idCompletar);
+                    try {
+                        repositorio.completar(idCompletar);
+                        System.out.println("Tarea completada correctamente.");
+                    } catch (TareaInvalidaException e){
+                        System.out.println("Error: " + e.getMessage());
+                    }
                     break;
 
                 case 4:
                     System.out.println("Introduce el ID de la tarea a eliminar: ");
                     int idEliminar = scanner.nextInt();
-                    eliminar(idEliminar);
+                    try {
+                        repositorio.eliminar(idEliminar);
+                        System.out.println("Tarea eliminada correctamente.");
+                    } catch (TareaInvalidaException e){
+                        System.out.println("Error: " + e.getMessage());
+                    }
                     break;
 
                 case 0:
