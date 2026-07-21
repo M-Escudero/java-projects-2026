@@ -8,6 +8,7 @@ public class ConexionDB {
     private static final String NOMBRE = "postgres";
     private static final String PASSWORD = System.getenv("DB_PASSWORD");
 
+    // Conexión gestionada mediante variable de entorno DB_PASSWORD
     public static Connection getConexion() throws SQLException{
         return DriverManager.getConnection(URL,NOMBRE, PASSWORD);
     }
