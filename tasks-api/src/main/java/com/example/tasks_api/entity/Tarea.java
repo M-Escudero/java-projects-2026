@@ -27,6 +27,9 @@ public class Tarea {
     }
 
     //Getters
+    public  Long getId(){
+        return id;
+    }
      public String getTitulo(){
         return titulo;
      }
@@ -36,6 +39,7 @@ public class Tarea {
      }
 
      //Setters
+    //No tiene sentido un setter del atributo Id porque este se genera automáticamente
      public void setTitulo(String titulo){
         this.titulo = titulo;
      }
