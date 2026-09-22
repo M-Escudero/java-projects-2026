@@ -71,3 +71,16 @@ Java 22, Maven
 - Resolución de conflictos con el editor visual de IntelliJ (Resolve Conflicts).
 - Revisión y ampliación del `.gitignore` (`target/`, `.idea/`, `*.class`).
 - Conventional Commits en todos los commits de la semana.
+
+### Arquitectura de la API (Semana 3)
+
+Flujo de una petición HTTP a través de las 4 capas: Controller → Service → Repository → Entity/Hibernate → Base de datos.
+
+![Diagrama de arquitectura](tasks-api/docs/arquitectura-tasks-api.png)
+
+Primero la petición HTTP viaja desde el Cliente hasta nuestro controlador. Después nuestro Controlador ejecuta uno de sus métodos 
+en función del verbo y la información que contenga la petición. A continuación el controlador delega en la capa de servicios
+donde se encuentra la lógica de la aplicación para ejecutar estos métodos. La capa Service accede al repositorio,
+que posteriormente usa Hibernate por debajo para leer la Entity y obtener la información de la Base de datos.
+Una vez tenemos la información de la base de datos, esta viaja de vuelta por cada una de las capas anteriores hasta volver al cliente
+y devolverle un archivo JSON con dicha información si fuese necesario.
